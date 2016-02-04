@@ -44,7 +44,11 @@ bool            isClient;
     }
     if ([elementname isEqualToString:@"AccountManager"])
     {
-         isClient = NO;
+        isClient = NO;
+    }
+    if ([elementname isEqualToString:@"JobManager"])
+    {
+        isClient = NO;
     }
     if ([elementname isEqualToString:@"Contact"])
     {
