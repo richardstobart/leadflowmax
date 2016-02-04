@@ -23,6 +23,8 @@ bool            isClient;
     NSData	*data   = [[NSData alloc] initWithContentsOfURL:url];
     parser			= [[NSXMLParser alloc] initWithData:data];
     parser.delegate = self;
+    parser.shouldProcessNamespaces = YES;
+    parser.shouldReportNamespacePrefixes = YES;
     [parser parse];
     return self;
 }
@@ -67,6 +69,9 @@ bool            isClient;
             currentClient.name = currentNodeContent;
         }
     }
+    //if ([elementname isEqualToString:@"AccountManager"]){
+    //    isClient = YES;
+    //}
     if ([elementname isEqualToString:@"Client"])
     {
         [self.clients addObject:currentClient];

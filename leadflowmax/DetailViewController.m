@@ -9,7 +9,9 @@
 #import "DetailViewController.h"
 
 @interface DetailViewController ()
-
+@property (strong, nonatomic) IBOutlet UITextField *clientName;
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *editButton;
+@property (nonatomic) BOOL isEditable;
 @end
 
 @implementation DetailViewController
@@ -19,17 +21,22 @@
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
-            
-        // Update the view.
-        [self configureView];
+
     }
 }
 
 - (void)configureView {
     // Update the user interface for the detail item.
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem name];
+        self.clientName.text = [self.detailItem name];
     }
+    self.clientName.enabled = NO;
+    if (!self.detailItem.WFMid || [self.detailItem.WFMid isEqualToString:@""]){
+        [self makeEditable: YES];
+    }else {
+        [self makeEditable: NO];
+    }
+    
 }
 
 - (void)viewDidLoad {
@@ -42,5 +49,25 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (IBAction)edit:(UIBarButtonItem *)sender {
+    [self makeEditable:!self.isEditable];
+}
+
+- (IBAction)clientName:(UITextField *)sender {
+    self.detailItem.name = sender.text;
+}
+
+- (void) makeEditable:(BOOL )makeEditable {
+    if (makeEditable){
+        self.editButton.title = @"Done";
+        self.clientName.enabled = YES;
+        self.isEditable = YES;
+    }else if (!makeEditable){
+        self.editButton.title = @"Edit";
+        self.clientName.enabled = NO;
+        self.isEditable = NO;
+    }
+}
+
 
 @end
